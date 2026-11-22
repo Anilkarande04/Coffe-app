@@ -19,15 +19,7 @@
 
   <p align="center">
     The Coffee Machine Simulator is a Python-based project that simulates the functionality of a coffee machine. This project leverages Object-Oriented Programming (OOP) principles to create a user-friendly and interactive application that allows users to make various coffee drinks.
-    <br />
-    <a href="https://github.com/senabibi/Coffee_Machine"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
-    <a href="https://github.com/senabibi/Coffee_Machine">View Demo</a>
-    ·
-    <a href="https://github.com/senabibi/Coffee_Machine/issues">Report Bug</a>
-    ·
-    <a href="https://github.com/senabibi/Coffee_Machine/issues">Request Feature</a>
+    
   </p>
 </div>
 
