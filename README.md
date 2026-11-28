@@ -171,11 +171,8 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 ## Contact
 
-Nursena Bitirgen - [LinkedIn](https://www.linkedin.com/in/nursena-bitirgen-5743341b9/)
+linkdin - https://www.linkedin.com/in/anil-karande
 
-Project Link: [https://github.com/senabibi/Coffee_Machine](https://github.com/senabibi/Coffee_Machine)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 
