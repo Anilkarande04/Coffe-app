@@ -15,13 +15,22 @@ class MoneyMachine:
 
     def report(self):
         """Prints the current profit"""
-        print(f"Money: {self.CURRENCY}{self.profit}")
+        print(f"Money: {self.CURRENCY}{round(self.profit, 2)}")
 
     def process_coins(self):
         """Returns the total calculated from coins inserted."""
         print("Please insert coins.")
         for coin in self.COIN_VALUES:
-            self.money_received += int(input(f"How many {coin}?: ")) * self.COIN_VALUES[coin]
+            while True:
+                try:
+                    count = int(input(f"How many {coin}?: "))
+                    if count < 0:
+                        raise ValueError
+                    break
+                except ValueError:
+                    print("Please enter a whole number (0 or more).")
+            self.money_received += count * self.COIN_VALUES[coin]
+        self.money_received = round(self.money_received, 2)
         return self.money_received
 
     def make_payment(self, cost):
