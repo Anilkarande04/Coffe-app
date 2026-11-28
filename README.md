@@ -1,213 +1,255 @@
-## Coffe App
 <a name="readme-top"></a>
 
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
+# ☕ Coffee Machine Simulator
 
-<!-- PROJECT LOGO -->
-<br />
-<div align="center">
-  <a href="https://github.com/senabibi/Coffee_Machine">
-    <img src="images/logo.png" alt="Logo" width="1000" height="800">
-  </a>
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![OOP](https://img.shields.io/badge/Concept-OOP-blueviolet?style=for-the-badge)
+![Interface](https://img.shields.io/badge/Interface-Command%20Line-black?style=for-the-badge)
+![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 
-<h3 align="center">COFFEE MACHINE </h3>
+A command-line coffee machine simulator written in **Python** using **object-oriented programming (OOP)**. The user picks a drink, pays with coins, and the machine checks its ingredients, makes the drink and returns the correct change. The machine also keeps track of its remaining ingredients and total profit.
 
-  <p align="center">
-    The Coffee Machine Simulator is a Python-based project that simulates the functionality of a coffee machine. This project leverages Object-Oriented Programming (OOP) principles to create a user-friendly and interactive application that allows users to make various coffee drinks.
-    
-  </p>
-</div>
+I built this project to practice OOP in Python: designing multiple classes, giving each a single responsibility, and making them work together.
 
+---
 
-<!-- TABLE OF CONTENTS -->
-<details>
-  <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
-  </ol>
-</details>
+## Table of Contents
 
+- [Demo](#demo)
+- [Features](#features)
+- [How It Works](#how-it-works)
+- [Project Structure](#project-structure)
+- [Class Design](#class-design)
+- [Getting Started](#getting-started)
+- [Usage](#usage)
+- [Menu and Machine Resources](#menu-and-machine-resources)
+- [Sample Run](#sample-run)
+- [Input Handling](#input-handling)
+- [Concepts Demonstrated](#concepts-demonstrated)
+- [Future Improvements](#future-improvements)
+- [Author](#author)
+- [License](#license)
 
-## About The Project
+---
 
+## Demo
 
-
-Here's a video demonstrating the Coffee Machine Simulator in action:
-
-[![Coffee Machine Demo](images/gifmaker_me.gif)]([https://example.com](https://github.com/senabibi/Coffee_Machine/blob/main/images/gifmaker_me.gif))
-
-The Coffee Machine Simulator is a Python-based project that emulates the operation of a coffee machine. It allows users to choose from a selection of coffee types, enter the amount of money they want to spend, and, if there are sufficient ingredients in the machine, it prepares the selected coffee and provides change. If the machine is low on any ingredient, it prompts the user to refill the necessary supplies.
-
-Additionally, users can request a report to check the current status of the machine, including the remaining quantities of each ingredient.
-
-This project demonstrates the principles of Object-Oriented Programming (OOP) and provides a user-friendly and interactive experience for coffee enthusiasts.
+![Coffee Machine Demo](Screenshot%202026-11-22%20161952.png)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-### Built With
+---
 
-* [![Python][Python.py]][Python-url]
-* [![Replit][Replit.com]][Replit-url]
+## Features
 
-
+- Three drinks to choose from: **latte**, **espresso** and **cappuccino**
+- Checks that the machine has enough **water, milk and coffee** before making a drink, and says which ingredient is missing
+- Accepts payment in **coins** (quarters, dimes, nickels and pennies) and calculates the total
+- Returns the exact **change**, or **refunds** the money if the payment is not enough
+- Deducts the used ingredients after every successful order
+- `report` command to see the remaining ingredients and total profit
+- `refill` command to restore all ingredients to full levels
+- `off` command to switch the machine off
+- Handles unknown drink names and invalid coin input without crashing
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+---
+
+## How It Works
+
+```mermaid
+flowchart TD
+    A[Start] --> B[Show menu and ask for input]
+    B -->|off| Z[Switch machine off]
+    B -->|report| R[Show resources and profit]
+    R --> B
+    B -->|refill| F[Refill all ingredients]
+    F --> B
+    B -->|drink name| C{Drink on the menu?}
+    C -->|No| B
+    C -->|Yes| D{Enough ingredients?}
+    D -->|No| B
+    D -->|Yes| E{Enough money?}
+    E -->|No, refund| B
+    E -->|Yes, give change| G[Make drink, deduct ingredients, add to profit]
+    G --> B
+```
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+---
+
+## Project Structure
+
+```
+Coffe-app/
+├── main.py            # Main loop that connects all the classes
+├── menu.py            # Menu and MenuItem classes (drinks, ingredients, cost)
+├── coffee_maker.py    # CoffeeMaker class (resource check, making coffee, report, refill)
+├── money_machine.py   # MoneyMachine class (coin payment, change, profit)
+├── LICENSE
+└── README.md
+```
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+---
+
+## Class Design
+
+| Class | File | Responsibility |
+|---|---|---|
+| `MenuItem` | `menu.py` | Stores one drink's name, cost and required ingredients |
+| `Menu` | `menu.py` | Holds all drinks, lists their names and finds a drink by name |
+| `CoffeeMaker` | `coffee_maker.py` | Tracks ingredient levels, checks if an order can be made, makes the drink, prints a report and refills |
+| `MoneyMachine` | `money_machine.py` | Reads the coins, calculates the total, returns change or a refund and tracks profit |
+
+`main.py` creates one object of `Menu`, `CoffeeMaker` and `MoneyMachine`, and runs the loop that passes the chosen `MenuItem` between them.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+---
 
 ## Getting Started
 
-This section provides instructions on how to set up and run the project locally. Please follow these steps to get your environment ready.
-
 ### Prerequisites
 
-Before you begin, make sure you have the following prerequisites installed on your system:
+- **Python 3.8 or higher.** The project was tested on Python 3.12 and is configured for 3.13.
+- No external libraries are needed.
 
-* [Python](https://www.python.org/downloads/): You'll need Python to run this project.
+### Installation and Run
 
-* [Replit](https://replit.com): This project is designed to work with Replit, so you'll need to have a Replit account and be familiar with using it.
+```bash
+# 1. Clone the repository
+git clone https://github.com/Anilkarande04/Coffe-app.git
 
-### Installation
+# 2. Go into the project folder
+cd Coffe-app
 
-Follow these steps to install and run the project:
-
-1. **Python Installation:**
-   - Download and install Python from the [official Python website](https://www.python.org/downloads/).
-
-2. **Replit Usage:**
-   - You can run this project on Replit by following these steps:
-     - Create a Replit account if you don't have one.
-     - Import the project into Replit or create a new Replit project.
-     - Open the main Python script in Replit and run it.
-
-Once you've completed these steps, you'll have Python and Replit set up and be ready to run the project locally.
+# 3. Start the machine
+python main.py
+```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
+---
 
 ## Usage
 
-In order to use this project, follow these steps to set up your environment and develop the Coffee Machine simulator.
+Type one of the commands below at the prompt and press Enter. Input is not case-sensitive.
 
-1. **Python Installation:**
-   - Ensure you have the latest version of Python installed on your system. If not, you can download and install it from the [official Python website](https://www.python.org/downloads/).
+| Input | What it does |
+|---|---|
+| `latte`, `espresso`, `cappuccino` | Orders that drink, then asks for coins |
+| `report` | Shows the remaining water, milk, coffee and the total profit |
+| `refill` | Refills water, milk and coffee to full levels |
+| `off` | Turns the machine off |
 
-2. **Replit Installation:**
-   - You will also need to have Replit set up to work on this project. If you don't have a Replit account, you can create one on the [Replit website](https://replit.com).
-
-3. **Object-Oriented Programming (OOP):**
-   - If you are not familiar with Object-Oriented Programming (OOP) concepts, you can refer to online resources like [Wikipedia's OOP page](https://en.wikipedia.org/wiki/Object-oriented_programming) or websites like [W3Schools](https://www.w3schools.com/python/python_classes.asp) to learn more about OOP in Python.
-
-4. **Project Development:**
-   - Once you have Python and Replit set up, you can start developing the Coffee Machine simulator. Refer to the project documentation for detailed instructions on how to get started and create your own coffee machine using Python and OOP.
-
-_For more examples and detailed guidance, please refer to the [Documentation](https://example.com)_
+When you order a drink, the machine asks how many quarters, dimes, nickels and pennies you are inserting.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+---
 
-## Roadmap
+## Menu and Machine Resources
 
-- [ ] Python Installation: Ensure you have Python (latest version) installed for project development.
-- [ ] Replit Setup: Create or use a Replit account for an integrated development environment.
-- [ ] Learn OOP: Familiarize yourself with Object-Oriented Programming (OOP) concepts, as they are essential for this project. Refer to resources like [Wikipedia's OOP page](https://en.wikipedia.org/wiki/Object-oriented_programming) or [W3Schools](https://www.w3schools.com/python/python_classes.asp) for learning OOP in Python.
-- [ ] Feature 1: Start with implementing the core functionality of the Coffee Machine simulator.
-- [ ] Feature 2: Add customization options for various coffee types.
-- [ ] Feature 3: Implement inventory management to track ingredients.
-    - [ ] Nested Feature: Develop a feature for users to refill ingredients when low.
+| Drink | Water | Milk | Coffee | Price |
+|---|---|---|---|---|
+| Latte | 200 ml | 150 ml | 24 g | $2.50 |
+| Espresso | 50 ml | 0 ml | 18 g | $1.50 |
+| Cappuccino | 250 ml | 50 ml | 24 g | $3.00 |
 
-You can also check out the [open issues](https://github.com/senabibi/Coffee_Machine/issues) for a full list of proposed features and known issues.
+**Full machine levels:** 300 ml water, 200 ml milk, 100 g coffee.
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-## Contributing
-
-Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-If you have a suggestion that would make this project better, please fork the repository and create a pull request. You can also simply open an issue with the "enhancement" tag.
-Don't forget to give the project a star! Thanks again!
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+**Coin values:** quarter = $0.25, dime = $0.10, nickel = $0.05, penny = $0.01.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+---
 
+## Sample Run
+
+```
+What would you like ?(latte/espresso/cappuccino/)tea
+Sorry that item is not available.
+What would you like ?(latte/espresso/cappuccino/)latte
+Please insert coins.
+How many quarters?: 12
+How many dimes?: 12
+How many nickles?: 12
+How many pennies?: 12
+Here is $2.42 in change.
+Here is your latte ☕️. Enjoy!
+What would you like ?(latte/espresso/cappuccino/)latte
+Sorry there is not enough water.
+Sorry there is not enough milk.
+What would you like ?(latte/espresso/cappuccino/)report
+Water: 100ml
+Milk: 50ml
+Coffee: 76g
+Money: $2.5
+What would you like ?(latte/espresso/cappuccino/)refill
+All ingredients have been refilled.
+What would you like ?(latte/espresso/cappuccino/)off
+```
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+---
+
+## Input Handling
+
+| Situation | What the machine does |
+|---|---|
+| Drink name is not on the menu | Prints "Sorry that item is not available." and shows the menu again |
+| An ingredient is too low | Prints which ingredient is missing and does not ask for payment |
+| Payment is less than the price | Prints "Sorry that's not enough money. Money refunded." |
+| Coin count is not a whole number, or is negative | Asks again for that coin |
+| Command is typed in capital letters or with extra spaces | Still works |
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+---
+
+## Concepts Demonstrated
+
+- **Classes and objects:** each part of the machine is its own class
+- **Single responsibility:** menu, ingredients and money are handled by separate classes
+- **Encapsulation:** each class keeps its own data (`resources`, `profit`, `ingredients`)
+- **Object composition:** `main.py` passes a `MenuItem` object between `CoffeeMaker` and `MoneyMachine`
+- **Class constants:** `FULL_TANK` in `CoffeeMaker`, `COIN_VALUES` and `CURRENCY` in `MoneyMachine`
+- **Input validation:** `try/except` with a retry loop for coin input
+- **Multi-file project structure** with imports between modules
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+---
+
+## Future Improvements
+
+- Save every sale to a CSV file and generate a sales report with Pandas
+- Add automated unit tests for `CoffeeMaker` and `MoneyMachine`
+- Add more drinks and let the menu be loaded from a file
+- Build a simple graphical interface
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+---
+
+## Author
+
+**Anil Karande**
+B.E. in Artificial Intelligence and Data Science
+
+- LinkedIn: [linkedin.com/in/anil-karande](https://www.linkedin.com/in/anil-karande)
+- Email: karandeanil84@gmail.com
+- GitHub: [@Anilkarande04](https://github.com/Anilkarande04)
+
+---
 
 ## License
 
-Distributed under the MIT License. See `LICENSE.txt` for more information.
+Distributed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-## Contact
-
-linkdin - https://www.linkedin.com/in/anil-karande
-
-
-
-
-## Acknowledgments
-
-The development of this project was made possible thanks to the following resources and skills:
-
-* **Python Knowledge:** Special thanks to the Python programming language for its robust and versatile capabilities.
-* **OOP Expertise:** Acknowledgment to the world of Object-Oriented Programming (OOP) for providing a solid foundation for this project.
-* **Data Structure Proficiency:** Gratitude for the knowledge of data structures, which played a crucial role in shaping this project.
-* **Replit Proficiency:** The ability to work with Replit was instrumental in the development of this project.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/senabibi/Coffee_Machine.svg?style=for-the-badge
-[contributors-url]: https://github.com/senabibi/Coffee_Machine/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/senabibi/Coffee_Machine.svg?style=for-the-badge
-[forks-url]: https://github.com/senabibi/Coffee_Machine/network/members
-[stars-shield]: https://img.shields.io/github/stars/senabibi/Coffee_Machine.svg?style=for-the-badge
-[stars-url]: https://github.com/senabibi/Coffee_Machine/stargazers
-[issues-shield]: https://img.shields.io/github/issues/senabibi/Coffee_Machine.svg?style=for-the-badge
-[issues-url]: https://github.com/senabibi/Coffee_Machine/issues
-[license-shield]: https://img.shields.io/github/license/senabibi/Coffee_Machine.svg?style=for-the-badge
-[license-url]: https://github.com/senabibi/Coffee_Machine/blob/master/LICENSE.txt
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://www.linkedin.com/in/nursena-bitirgen-5743341b9/
-[product-screenshot]: images/logo.png
-
-[Python.py]: https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white
-[Python-url]: https://docs.python.org/3/
-
-[Replit.com]: https://img.shields.io/badge/replit-667881?style=for-the-badge&logo=replit&logoColor=white
-[Replit-url]: https://replit.com/
